@@ -33,3 +33,10 @@ Children are appended to their parent in **completion order**, not start order. 
 - `export_dict(tree)` — returns a plain dict suitable for `json.dumps` or a tracing backend.
 
 `SpanRecorder` and `span()` accept an optional `clock` callable for deterministic testing; the default is `time.monotonic`.
+
+## Performance
+
+The window keeps a bounded buffer, so `push` is constant time and memory does not
+grow with the length of the stream. `peak` and `trough` are linear in the window
+size, which is the trade that keeps `push` cheap.
+
